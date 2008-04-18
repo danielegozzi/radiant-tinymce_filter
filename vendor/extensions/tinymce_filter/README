@@ -1,0 +1,37 @@
+= Tinymce Filter =
+
+This extension provides a TinyMCE filter for the Radiant CMS. It allows you to edit the content of your pages in the TinyMCE editor.
+
+Based on the plugin by Brandalism.
+
+== Installation ==
+
+  # Put the javascript/extensions/tinymce folder in the public folder of your Radiant installation:
+
+{{{
+svn checkout http://radiant-tinymce-extension.googlecode.com/svn/trunk/javascripts/extensions/tinymce public/javascripts/extensions/tinymce
+}}}
+
+  # Copy the tinymce_filter folder to your vendor/extensions folder
+
+{{{
+svn checkout http://radiant-tinymce-extension.googlecode.com/svn/trunk/tinymce_filter vendor/extensions/tinymce_filter
+}}}
+
+  # By default, TinyMCE will look for a /stylesheets/content.css file to use in the editor. If you want to add your own styling to the editor, you can create this file. Radiant code will automatically get a class name. Add the following CSS to your content.css file:
+
+{{{
+.mceItemRadiantCode { 
+  background: url('../javascripts/extensions/tiny_mce/plugins/codeprotect/images/radiant-code.png') no-repeat; 
+  height: 18px;
+  border: none;
+}
+}}}
+
+== Settings ==
+
+If you want to change the settings of the editor, you can do this by editing the 'tiny_mce_settings.js' file. The 'codeprotect' plugin is used to protect the Radiant tags from being edited within the editor.
+
+- Edwin Vlieg
+
+http://code.google.com/p/radiant-tinymce-extension/
