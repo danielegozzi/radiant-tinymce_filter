@@ -201,13 +201,13 @@ function text_input_method(index, filter) {
 	if (index != null) {
 		// control for page parts
 		
-		elem = $('part['+(index - 1)+'][content]');
+		elem = $('part_'+(index - 1)+'_content');
 		setBucketAction(elem, filter);
 		
 		if (filter == "TinyMce") {
-			tinyMCE.execCommand('mceAddControl',true,'part['+(index - 1)+'][content]');
+			tinyMCE.execCommand('mceAddControl',true,'part_'+(index - 1)+'_content');
 		} else {
-			tinyMCE.execCommand('mceRemoveControl',true,'part['+(index - 1)+'][content]');
+			tinyMCE.execCommand('mceRemoveControl',true,'part_'+(index - 1)+'_content');
 		}
 	} else {
 		// control for snippets
@@ -221,53 +221,37 @@ function text_input_method(index, filter) {
 
 function setBucketAction(elem, filter)
 {
-	var assets = document.getElementsByClassName('asset', 'assets');
-	for (var i = 0; i < assets.length; i++)
+  var assets = document.getElementById('attachments').select('a:not([class="thumbnail"])');
+  for (var i = 0; i < assets.length; i++)
+    {
+      var url = assets[i].readAttribute('href');
+      var title = assets[i].textContent.replace(/(^[ \n\r\t]+|[ \t\r\n]+$)/g, '');
+      var fileType = 'non-image';
+      if (assets[i].parentNode.select('img').length > 1) { fileType = 'image'; }
+      assets[i].setAttribute('href', '#');
+      switch(fileType)
 	{
-		var img = assets[i].childNodes[0];
-		// img_src_tmp = img.src.split('/');
-		// t = '';
-		// for (i = 3; i < img_src_tmp.length; i++)
-		// {
-		// 	t = t + '/' + img_src_tmp[i];
-		// }
-		// alert(t);
-		var fileType = img.getAttribute('rel');
-		var title = assets[i].childNodes[1].nodeValue;
-	
-		switch(filter)
-		{
-			case 'TinyMce':
-				switch(fileType)
-				{
-					case 'image':
-						insert_image = '<img src="' + img.src + '" width="' + img.width + '" height="' + img.height + '" alt="' + title + '" />';
-						assets[i].setAttribute('onclick', "tinyMCE.execCommand('mceInsertContent', null, insert_image)");
-						break
-					case 'pdf':
-						insert_link = '<a href="' + img.title + '">' + title + '</a>';
-						assets[i].setAttribute('onclick', "tinyMCE.execCommand('mceInsertContent', null, insert_link); return false");
-						break
-				
-					break
-				}
-			break
-			
-			case '<none>':
-				switch(fileType)
-				{
-					case 'image':
-						insert_image = '<img src="' + img.src + '" width="' + img.width + '" height="' + img.height + '" alt="' + title + '" />';
-						assets[i].setAttribute('onclick', "insertAtCursor(elem, insert_image)");
-					break
-					case 'pdf':
-						insert_link = '<a href="' + img.title + '">' + title + '</a>';
-						assets[i].setAttribute('onclick', "tinyMCE.execCommand('mceInsertContent', null, insert_link); return false");
-					break
-				}
-			break
-		}
+	case 'image':
+	  insert_image = '<img src="' + url + '" alt="' + title + '" />';
+	  switch(filter)
+	    {
+	    case 'TinyMce':
+	      assets[i].setAttribute('onclick', "tinyMCE.execCommand('mceInsertContent', null, '" + insert_image + "')");
+	      thumbnail_link = assets[i].parentNode.select('a[class="thumbnail]')[0];
+	      thumbnail_link.setAttribute("onclick", "tinyMCE.execCommand('mceInsertContent', null, '" + insert_image + "')");
+	      thumbnail_link.setAttribute("href", "#");
+	      break;
+	    case '<none>':
+	      assets[i].setAttribute('onclick', "insertAtCursor(elem, '" + insert_image + "')");
+	      break;
+	    }
+	  break;
+	default:
+	  insert_link = '<a href="' + img.title + '">' + title + '</a>';
+	  assets[i].setAttribute('onclick', "tinyMCE.execCommand('mceInsertContent', null, '" + insert_link + "'); return false");
+	  break;    
 	}
+    }
 }
 
 function insertAtCursor(myField, myValue) {
@@ -298,24 +282,24 @@ function init_load_tiny_mce(){
 	// loads TinyMce editor if "TinyMce" is the selected text filter
 
   // check to see if we are working with a page or with a snippet
-  if ($('part[0][filter_id]'))
+  if ($('part_0_filter_id'))
   {
     parts = $('pages').getElementsByTagName('textarea');
     for (var i = 0; i < parts.length; i++)
     {
-      if ($F('part[' + i + '][filter_id]') == 'TinyMce') {
+      if ($F('part_' + i + '_filter_id') == 'TinyMce') {
         text_input_method((i + 1), 'TinyMce');
       }
 
-      Event.observe($('part[' + i + '][filter_id]'), 'change', function(event){
+      Event.observe($('part_' + i + '_filter_id'), 'change', function(event){
         element = Event.element(event);
-        id = parseInt(element.id.replace("part[", "").replace("][filter_id]"));
+        id = parseInt(element.id.replace("part_", "").replace("_filter_id"));
         text_input_method(id+1, $F(element));
       });
       
     }
-  } else if ($('snippet[filter_id]')) {
-    if ($F('snippet[filter_id]') == 'TinyMce') {
+  } else if ($('snippet_filter_id_')) {
+    if ($F('snippet_filter_id') == 'TinyMce') {
       text_input_method(null, 'TinyMce');
     }
     
