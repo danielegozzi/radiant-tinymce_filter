@@ -225,7 +225,7 @@ function setBucketAction(elem, filter)
   for (var i = 0; i < assets.length; i++)
     {
       var url = assets[i].readAttribute('href');
-      var title = assets[i].textContent.replace(/(^[ \n\r\t]+|[ \t\r\n]+$)/g, '');
+      var title = assets[i].innerHTML.replace(/(^[ \n\r\t]+|[ \t\r\n]+$|<\/?[^>]+>)/g, '');
       var fileType = 'non-image';
       if (assets[i].parentNode.select('img').length > 1) { fileType = 'image'; }
       assets[i].setAttribute('href', '#');
