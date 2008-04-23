@@ -18,7 +18,8 @@ tinyMCE.init({
     theme_advanced_styles : "",
     table_cell_styles : "",
     table_row_styles : "",
-    
+    relative_urls : false,
+    remove_script_host : true,
     theme_advanced_statusbar_location : "bottom",
     inline_styles : true,
     verify_html: true,
@@ -230,27 +231,27 @@ function setBucketAction(elem, filter)
       if (assets[i].parentNode.select('img').length > 1) { fileType = 'image'; }
       assets[i].setAttribute('href', '#');
       switch(fileType)
-	{
-	case 'image':
-	  insert_image = '<img src="' + url + '" alt="' + title + '" />';
-	  switch(filter)
-	    {
-	    case 'TinyMce':
-	      assets[i].setAttribute('onclick', "tinyMCE.execCommand('mceInsertContent', null, '" + insert_image + "')");
-	      thumbnail_link = assets[i].parentNode.select('a[class="thumbnail]')[0];
-	      thumbnail_link.setAttribute("onclick", "tinyMCE.execCommand('mceInsertContent', null, '" + insert_image + "')");
-	      thumbnail_link.setAttribute("href", "#");
+	  {
+	  case 'image':
+	      insert_image = '<img src="' + url + '" alt="' + title + '" />';
+	      switch(filter)
+		  {
+		  case 'TinyMce':
+		      assets[i].setAttribute('onclick', "tinyMCE.execCommand('mceInsertContent', null, '" + insert_image + "')");
+		      thumbnail_link = assets[i].parentNode.select('a[class="thumbnail]')[0];
+		      thumbnail_link.setAttribute("onclick", "tinyMCE.execCommand('mceInsertContent', null, '" + insert_image + "')");
+		      thumbnail_link.setAttribute("href", "#");
+		      break;
+		  case '<none>':
+		      assets[i].setAttribute('onclick', "insertAtCursor(elem, '" + insert_image + "')");
+		      break;
+		  }
 	      break;
-	    case '<none>':
-	      assets[i].setAttribute('onclick', "insertAtCursor(elem, '" + insert_image + "')");
+	  default:
+	      insert_link = '<a href="' + url + '">' + title + '</a>';
+	      assets[i].setAttribute('onclick', "tinyMCE.execCommand('mceInsertContent', null, '" + insert_link + "'); return false");
 	      break;
-	    }
-	  break;
-	default:
-	  insert_link = '<a href="' + img.title + '">' + title + '</a>';
-	  assets[i].setAttribute('onclick', "tinyMCE.execCommand('mceInsertContent', null, '" + insert_link + "'); return false");
-	  break;    
-	}
+	  }
     }
 }
 
