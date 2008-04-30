@@ -5,7 +5,7 @@ tinyMCE.init({
     theme : "advanced",
     content_css : "/stylesheets/content.css",
     height: "350",
-    plugins : "preview,searchreplace,contextmenu,paste,style,table,codeprotect,advimage,xhtmlxtras",
+    plugins : "preview,searchreplace,contextmenu,paste,style,table,codeprotect,advimage,xhtmlxtras,advlink",
     theme_advanced_toolbar_location : "top",
     theme_advanced_toolbar_align : "left",
     theme_advanced_buttons1 : "formatselect,styleselect,separator,bold,italic,del,abbr,acronym,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,outdent,indent,separator,sup,sub,hr,charmap,separator,forecolor,backcolor",
@@ -238,9 +238,6 @@ function setBucketAction(elem, filter)
 		  {
 		  case 'TinyMce':
 		      assets[i].setAttribute('onclick', "tinyMCE.execCommand('mceInsertContent', null, '" + insert_image + "')");
-		      thumbnail_link = assets[i].parentNode.select('a[class="thumbnail]')[0];
-		      thumbnail_link.setAttribute("onclick", "tinyMCE.execCommand('mceInsertContent', null, '" + insert_image + "')");
-		      thumbnail_link.setAttribute("href", "#");
 		      break;
 		  case '<none>':
 		      assets[i].setAttribute('onclick', "insertAtCursor(elem, '" + insert_image + "')");
@@ -304,7 +301,7 @@ function init_load_tiny_mce(){
       text_input_method(null, 'TinyMce');
     }
     
-    Event.observe($('snippet[filter_id]'), 'change', function(event){
+    Event.observe($('snippet_filter_id'), 'change', function(event){
       element = Event.element(event);
       text_input_method(null, $F(element));
     });
