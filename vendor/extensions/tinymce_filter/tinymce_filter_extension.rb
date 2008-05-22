@@ -7,8 +7,7 @@ class TinymceFilterExtension < Radiant::Extension
   
   def activate
     # Load the filter
-    TinyMceFilter
-    
+    TinyMceFilter    
     
     # Add the appropriate stylesheets to the javascripts array in the page and snippet controller
     Admin::PageController.class_eval do
