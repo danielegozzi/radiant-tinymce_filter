@@ -1,21 +1,3 @@
-function part_added() {
-  var partNameField = $('part-name-field');
-  var partIndexField = $('part-index-field');
-  var index = parseInt(partIndexField.value || 0) + 1;
-  var tab = 'tab-' + index;
-  var caption = partNameField.value;
-  var page = 'page-' + index;
-  tabControl.addTab(tab, caption, page);
-  Element.hide('add-part-popup');
-  Element.hide('busy');
-  partNameField.value = '';
-  partIndexField.value = (index + 1).toString();
-  $('add-part-button').disabled = false;
-  Field.focus(partNameField);
-  tabControl.select(tab);
-  new TinymceFilterPartObserver($('page-' + index));
-}
-
 var TinymceFilterPartObserver = Class.create({
   
   initialize: function(element) {
@@ -58,8 +40,17 @@ var TinymceFilterPartObserver = Class.create({
   
 });
 
-document.observe('dom:loaded', function() {
+TinymceFilterPartObserver.pages = new Array();
+
+TinymceFilterPartObserver.init = function() {
   $('tab-control').select('.page').each(function(element) {
-    new TinymceFilterPartObserver(element);
+    if(!TinymceFilterPartObserver.pages.include(element.id)) {
+      TinymceFilterPartObserver.pages.push(element.id);
+      new TinymceFilterPartObserver(element);
+    }
   });
-});
+}
+
+Ajax.Responders.register({ onComplete: TinymceFilterPartObserver.init });
+
+document.observe('dom:loaded', TinymceFilterPartObserver.init);
