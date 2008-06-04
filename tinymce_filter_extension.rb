@@ -10,23 +10,15 @@ class TinymceFilterExtension < Radiant::Extension
     TinyMceFilter    
     
     # Add the appropriate stylesheets to the javascripts array in the page and snippet controller
-    Admin::PageController.class_eval do
-      before_filter :add_tinymce_javascripts, :only => [:new, :edit]
+    include_js = lambda do
+      before_filter :add_tinymce_javascripts, :only => [:edit]
       private
       def add_tinymce_javascripts
         @javascripts << 'extensions/tiny_mce/tiny_mce' << 'extensions/tiny_mce/tiny_mce_settings'
       end
-      
     end
-    
-    Admin::SnippetController.class_eval do
-      before_filter :add_tinymce_javascripts, :only => [:edit]
-      
-      def add_tinymce_javascripts
-        @javascripts << 'extensions/tiny_mce/tiny_mce' << 'extensions/tiny_mce/tiny_mce_settings'
-      end
-      
-    end
+    Admin::PageController.class_eval &include_js
+    Admin::SnippetController.class_eval &include_js
     
   end
   
