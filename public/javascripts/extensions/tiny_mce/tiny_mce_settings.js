@@ -35,7 +35,7 @@ tinyMCE.init({
     +"a[accesskey|charset|class|coords|dir<ltr?rtl|href|id|lang"
       +"|onblur|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup"
       +"|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|rel|rev"
-      +"|shape<circle?default?poly?rect|style|tabindex|title|type],"
+      +"|shape<circle?default?poly?rect|style|tabindex|title|type|name],"
     +"abbr[align|class|dir<ltr?rtl|id|onclick"
       +"|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove"
       +"|onmouseout|onmouseover|onmouseup|style|title],"
