@@ -14,7 +14,7 @@ class TinymceFilterExtension < Radiant::Extension
       before_filter :add_tinymce_javascripts, :only => [:edit]
       private
       def add_tinymce_javascripts
-        @javascripts << 'extensions/tiny_mce/tiny_mce' << 'extensions/tiny_mce/tiny_mce_settings' << 'extensions/tiny_mce/tinymce_filter'
+        @javascripts << 'extensions/tiny_mce/tiny_mce' << 'extensions/tiny_mce/tiny_mce_settings'
       end
     end
     Admin::PageController.class_eval &include_js
