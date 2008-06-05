@@ -1,15 +1,3 @@
-tinyMCE.init({   
-  editor_selector : "mceEditor",
-  editor_deselector : "noMceEditor",
-	mode : "textareas",
-	theme : "advanced",
-	theme_advanced_toolbar_location : "top",
-	theme_advanced_toolbar_align : "left",
-	theme_advanced_statusbar_location : "bottom",
-	apply_source_formatting : true
-});
-
-/*
 tinyMCE.init({
     language : "en",
     mode : "exact",
@@ -155,8 +143,7 @@ tinyMCE.init({
       +"|onmouseup|style|title]",
     invalid_elements: "font"
 });
-*/
-/*
+
 function blockElementAlignClean(type, value) {
     switch (type) {
         case "get_from_editor":  //not used but good to keep
@@ -320,4 +307,3 @@ function init_load_tiny_mce(){
     });
   }
 }
-*/

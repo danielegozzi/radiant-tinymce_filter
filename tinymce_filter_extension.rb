@@ -19,6 +19,7 @@ class TinymceFilterExtension < Radiant::Extension
     end
     Admin::PageController.class_eval &include_js
     Admin::SnippetController.class_eval &include_js
+    
   end
   
   def deactivate
