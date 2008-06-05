@@ -5,11 +5,11 @@ tinyMCE.init({
     theme : "advanced",
     content_css : "/stylesheets/content.css",
     height: "350",
-    plugins : "preview,searchreplace,contextmenu,paste,style,table,codeprotect,advimage,xhtmlxtras,advlink",
+    plugins : "preview,searchreplace,contextmenu,paste,style,table,advimage,xhtmlxtras,advlink",
     theme_advanced_toolbar_location : "top",
     theme_advanced_toolbar_align : "left",
     theme_advanced_buttons1 : "formatselect,styleselect,separator,bold,italic,del,abbr,acronym,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,outdent,indent,separator,sup,sub,hr,charmap,separator,forecolor,backcolor",
-    theme_advanced_buttons2 : "undo,redo,separator,cut,copy,paste,pastetext,pasteword,separator,search,replace,selectall,separator,link,unlink,image,separator,visualaid,removeformat,cleanup,code,preview,styleprops",
+    theme_advanced_buttons2 : "undo,redo,separator,cut,copy,paste,pastetext,pasteword,separator,search,replace,selectall,separator,link,unlink,anchor,image,separator,visualaid,removeformat,cleanup,code,preview,styleprops",
     theme_advanced_buttons3 : "tablecontrols",
 
 		// To set advanced styles, simply insert this pattern into the quotes below 
