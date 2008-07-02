@@ -43,14 +43,34 @@ var TinymceFilterPartObserver = Class.create({
 TinymceFilterPartObserver.pages = new Array();
 
 TinymceFilterPartObserver.init = function() {
-  $('tab-control').select('.page').each(function(element) {
-    if(!TinymceFilterPartObserver.pages.include(element.id)) {
-      TinymceFilterPartObserver.pages.push(element.id);
-      new TinymceFilterPartObserver(element);
-    }
-  });
+  tab_control = $('tab-control');
+  if (tab_control) {
+    tab_control.select('.page').each(function(element) {
+      if(!TinymceFilterPartObserver.pages.include(element.id)) {
+        TinymceFilterPartObserver.pages.push(element.id);
+        new TinymceFilterPartObserver(element);
+      }
+    });
+  }
+}
+
+var TinymceSnippetPartObserver = Class.create(TinymceFilterPartObserver, {
+  initialize: function(snippet_textarea, select_filter) {
+    this.filter_select_menu = select_filter;
+    this.textarea = snippet_textarea;
+    this.setup();
+  },
+});
+
+TinymceSnippetPartObserver.init = function() {
+  snippet_content = $('snippet_content');
+  snippet_filter = $('snippet_filter');
+  if (snippet_content && snippet_filter) {
+    new TinymceSnippetPartObserver(snippet_content, snippet_filter);
+  }
 }
 
 Ajax.Responders.register({ onComplete: TinymceFilterPartObserver.init });
 
 document.observe('dom:loaded', TinymceFilterPartObserver.init);
+document.observe('dom:loaded', TinymceSnippetPartObserver.init);
