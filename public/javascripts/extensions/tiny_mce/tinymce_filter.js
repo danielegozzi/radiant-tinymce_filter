@@ -59,7 +59,7 @@ var TinymceSnippetPartObserver = Class.create(TinymceFilterPartObserver, {
     this.filter_select_menu = select_filter;
     this.textarea = snippet_textarea;
     this.setup();
-  },
+  }
 });
 
 TinymceSnippetPartObserver.init = function() {
@@ -68,9 +68,40 @@ TinymceSnippetPartObserver.init = function() {
   if (snippet_content && snippet_filter) {
     new TinymceSnippetPartObserver(snippet_content, snippet_filter);
   }
-}
+};
+
+var AttachmentClickObserver = Class.create({
+  initialize: function(attachments_box){
+    this.box = attachments_box;
+    this.attachments = attachments_box.select('a', 'a img');
+    this.setup();
+  },
+  setup: function() {
+    this.box.observe('click', this.handleAttachmentClicked.bind(this));
+  },
+  handleAttachmentClicked: function(event) {
+    link = Event.element(event);
+    if (this.attachments.include(link)) {
+      if (link.nodeName == 'IMG') {
+        tinyMCE.execCommand('mceInsertContent', null, '<img src="' + link.parentNode.href + '" alt="" />');
+      }
+      else {
+        tinyMCE.execCommand('mceInsertContent', null, '<a href="' + link.href + '">' + link.innerHTML + '</a>');
+      }
+      event.stop();
+    }
+  }
+});
+
+AttachmentClickObserver.init = function() {
+  attachments_box = $('attachments');
+  if (attachments_box) {
+    new AttachmentClickObserver(attachments_box);
+  }
+};
 
 Ajax.Responders.register({ onComplete: TinymceFilterPartObserver.init });
 
 document.observe('dom:loaded', TinymceFilterPartObserver.init);
 document.observe('dom:loaded', TinymceSnippetPartObserver.init);
+document.observe('dom:loaded', AttachmentClickObserver.init);
